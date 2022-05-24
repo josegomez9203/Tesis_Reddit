@@ -844,8 +844,8 @@ library(fImport)
 library(urca)
 
 
-Database <- read.csv("C:/Users/ID004665/Downloads/data_conjunta_pura.csv")
-Database2 <- read.csv("C:/Users/ID004665/Downloads/data_conjunta.csv")
+Database <- read.csv("/data_conjunta_pura.csv")
+Database2 <- read.csv("/data_conjunta.csv")
 
 df=data.frame( matrix(ncol = (ncol(Database)-1), nrow = (nrow(Database)-1)))
 colnames(df) = c("Date", "Precio", "Volumen", "Vocabulario")
