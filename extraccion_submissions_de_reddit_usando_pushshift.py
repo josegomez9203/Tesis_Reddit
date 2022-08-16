@@ -181,7 +181,7 @@ appended_data.to_csv(file_all)
 
 """# Información de Yahoo Finance"""
 
-pip install yfinance
+#pip install yfinance
 
 import yfinance as yf
 tick="GME"
@@ -471,8 +471,8 @@ file_txt = (location+"serie_unica.csv")
 serie_uni.to_csv(file_txt)
 
 # Commented out IPython magic to ensure Python compatibility.
-!apt-get install r-base
-!pip install rpy2
+#!apt-get install r-base
+#!pip install rpy2
 # %load_ext rpy2.ipython
 
 type(Datos)
@@ -581,15 +581,15 @@ show_wordcloud(data_proc.loc[data_proc['title_sentiment']=='Positive', 'Title'],
 
 show_wordcloud(data_proc.loc[data_proc['title_sentiment']=='Negative', 'Title'], title = 'Palabras principales en titulos (Sentimiento negativo)')
 
-pip install datasets
+#pip install datasets
 
-pip install umap-learn
+#pip install umap-learn
 
-pip install hdbscan
+#pip install hdbscan
 
-pip install bertopic
+#pip install bertopic
 
-pip install distributed==2021.9.1
+#pip install distributed==2021.9.1
 
 
 
