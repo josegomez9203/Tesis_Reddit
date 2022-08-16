@@ -23,9 +23,9 @@ import json # Manipulación de información JSON
 import csv # Para convertir las tablas finales en archivos csv y guardarla en la máquina local
 import time # Convertir el tiempo UTC en tiempo GMT
 import datetime # Manipulación del tiempo
-from google.colab import drive
-drive.mount('/content/drive')
-location = "/content/drive/MyDrive/Pushshift/"
+#from google.colab import drive
+#drive.mount('/content/drive')
+#location = "/content/drive/MyDrive/Pushshift/"
 
 """# Ejemplos de URLS de Pushshift"""
 
