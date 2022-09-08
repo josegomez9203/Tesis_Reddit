@@ -7,6 +7,8 @@ Original file is located at
     https://colab.research.google.com/drive/1rSwxwHVORoCizhjYtw_GUwBiElT28QqZ
 """
 
+location = "/home/josegomez/"
+
 from bertopic import BERTopic
 from sentence_transformers import SentenceTransformer
 from sklearn.feature_extraction.text import CountVectorizer
@@ -17,6 +19,15 @@ from nltk.corpus import stopwords
 
 from umap import UMAP
 from hdbscan import HDBSCAN
+
+data_WS = pd.read_csv(location +"data/WallStreetbets.csv")
+data_y = pd.read_csv(location +"data/Finance/Yahoo_GME.csv")
+data_proc = pd.read_csv(location +"data/data_procesada.csv")
+data_title = pd.read_csv(location +"data/data_title.csv")
+
+del data['Unnamed: 0']
+del data_proc['Unnamed: 0']
+del data_title['Unnamed: 0']
 
 from datasets import load_dataset
 
