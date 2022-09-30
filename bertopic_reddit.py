@@ -9,6 +9,31 @@ Original file is located at
 
 location = "/home/josegomez/"
 
+# Commented out IPython magic to ensure Python compatibility.
+import pandas as pd # Uso de dataframes
+import csv # Para convertir las tablas finales en archivos csv y guardarla en la máquina local
+import datetime # Manipulación del tiempo
+import numpy as np 
+import matplotlib
+import seaborn as sns
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import datetime as dt
+# %matplotlib inline 
+from wordcloud import WordCloud, STOPWORDS
+from textblob import TextBlob
+from collections import Counter
+import re
+import string
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
+from nltk.sentiment.vader import SentimentIntensityAnalyzer as vad
+from sklearn import preprocessing
+
+
 from bertopic import BERTopic
 from sentence_transformers import SentenceTransformer
 from sklearn.feature_extraction.text import CountVectorizer
@@ -20,30 +45,27 @@ from nltk.corpus import stopwords
 from umap import UMAP
 from hdbscan import HDBSCAN
 
-data_WS = pd.read_csv(location +"data/WallStreetbets.csv")
-data_y = pd.read_csv(location +"data/Finance/Yahoo_GME.csv")
-data_proc = pd.read_csv(location +"data/data_procesada.csv")
+#data_ws = pd.read_csv(location +"data/WallStreetbets.csv")
+#data_y = pd.read_csv(location +"data/Finance/Yahoo_GME.csv")
+#data_proc = pd.read_csv(location +"data/data_procesada.csv")
 data_title = pd.read_csv(location +"data/data_title.csv")
 
-del data['Unnamed: 0']
-del data_proc['Unnamed: 0']
+#del data_ws['Unnamed: 0']
+#del data_proc['Unnamed: 0']
 del data_title['Unnamed: 0']
 
-from datasets import load_dataset
+#data_ws['Publish Date'] = data_ws['Publish Date'].apply(lambda x: x.split(' ')[0])
 
-data = load_dataset(
-    'jamescalam/reddit-topics', split='train',
-    revision='c14d532'  # Especifica la version del dataset
-)
-# quita texto corto menor a 30
-data = data.filter(lambda x: True if len(x['selftext']) > 30 else 0)
-data
+# Se eliminan los registros que tengan menos de 20 y 10 caracteres para hacer comparación
+data_titles["Long"] = data_titles["Title"].str.len()
+data_title_filtered = data_titles[data_titles["Long"]>= 20]
+data_title_filtered2 = data_titles[data_titles["Long"]>= 10]
 
 # Modelo UMAP y HDBSCAN
+# min_cluster_size=80, min_samples=40,
+umap_model = UMAP(n_neighbors=10, n_components=3, min_dist=0.1)
+hdbscan_model = HDBSCAN(prediction_data=True, gen_min_span_tree=True)
 
-umap_model = UMAP(n_neighbors=3, n_components=3, min_dist=0.05)
-hdbscan_model = HDBSCAN(min_cluster_size=80, min_samples=40,
-                        prediction_data=True, gen_min_span_tree=True)
 
 stopwords = list(stopwords.words('english')) + ['http', 'https', 'amp', 'com']
 
@@ -51,6 +73,7 @@ embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 # metodo para eliminar las stopwords
 vectorizer_model = CountVectorizer(ngram_range=(1, 1), stop_words=stopwords)
 
+# Definición del modelo
 model = BERTopic(
     umap_model=umap_model,
     hdbscan_model=hdbscan_model,
@@ -61,20 +84,19 @@ model = BERTopic(
     calculate_probabilities=True,
     verbose=True
 )
-#model.fit(data['selftext'])
-topics, probs = model.fit_transform(data['title'])
 
-for i in range(5):
-    print(f"{topics[i]}: {data_proc['Title'][i]}")
+# Ajuste del modelo en los datos
+topics, probs = model.fit_transform(data_title_filtered['Title'].tolist())
+
+#for i in range(5):
+#    print(f"{topics[i]}: {data_proc['Title'][i]}")
 
 freq = model.get_topic_info()
 freq.head(10)
 
-model.visualize_topics()
+#model.visualize_topics()
 
-model.visualize_barchart()
+#model.visualize_barchart()
 
-model.visualize_hierarchy()
-
-
+#model.visualize_hierarchy()
 
