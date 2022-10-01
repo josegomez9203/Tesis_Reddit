@@ -57,9 +57,9 @@ del data_title['Unnamed: 0']
 #data_ws['Publish Date'] = data_ws['Publish Date'].apply(lambda x: x.split(' ')[0])
 
 # Se eliminan los registros que tengan menos de 20 y 10 caracteres para hacer comparación
-data_titles["Long"] = data_titles["Title"].str.len()
-data_title_filtered = data_titles[data_titles["Long"]>= 20]
-data_title_filtered2 = data_titles[data_titles["Long"]>= 10]
+data_title["Long"] = data_title["Title"].str.len()
+data_title_filtered = data_title[data_title["Long"]>= 20]
+data_title_filtered2 = data_title[data_title["Long"]>= 10]
 
 # Modelo UMAP y HDBSCAN
 # min_cluster_size=80, min_samples=40,
