@@ -48,11 +48,11 @@ from hdbscan import HDBSCAN
 #data_ws = pd.read_csv(location +"data/WallStreetbets.csv")
 #data_y = pd.read_csv(location +"data/Finance/Yahoo_GME.csv")
 #data_proc = pd.read_csv(location +"data/data_procesada.csv")
-data_title = pd.read_csv(location +"data/data_title.csv")
+data_titles = pd.read_csv(location +"data/data_title.csv")
 
 #del data_ws['Unnamed: 0']
 #del data_proc['Unnamed: 0']
-del data_title['Unnamed: 0']
+del data_titles['Unnamed: 0']
 
 #data_ws['Publish Date'] = data_ws['Publish Date'].apply(lambda x: x.split(' ')[0])
 
@@ -83,9 +83,9 @@ data_titles['Title'] = data_titles['Title'].apply(str)
 data_titles['Title'] = data_titles['Title'].apply(lambda x:remove_emoji(x))
 
 # Se eliminan los registros que tengan menos de 20 y 10 caracteres para hacer comparación
-data_title["Long"] = data_title["Title"].str.len()
-data_title_filtered = data_title[data_title["Long"]>= 40]
-data_title_filtered2 = data_title[data_title["Long"]>= 10]
+data_titles["Long"] = data_titles["Title"].str.len()
+data_title_filtered = data_titles[data_titles["Long"]>= 40]
+data_title_filtered2 = data_titles[data_titles["Long"]>= 10]
 
 # Modelo UMAP y HDBSCAN
 # min_cluster_size=80, min_samples=40,
