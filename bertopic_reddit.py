@@ -56,15 +56,42 @@ del data_title['Unnamed: 0']
 
 #data_ws['Publish Date'] = data_ws['Publish Date'].apply(lambda x: x.split(' ')[0])
 
+def remove_emoji(string):
+    emoji_pattern = re.compile("["
+                               u"\U0001F600-\U0001F64F"  # emoticons
+                               u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+                               u"\U0001F680-\U0001F6FF"  # transport & map symbols
+                               u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+                               u"\U00002500-\U00002BEF"  # chinese char
+                               u"\U00002702-\U000027B0"
+                               u"\U00002702-\U000027B0"
+                               u"\U000024C2-\U0001F251"
+                               u"\U0001f926-\U0001f937"
+                               u"\U00010000-\U0010ffff"
+                               u"\u2640-\u2642"
+                               u"\u2600-\u2B55"
+                               u"\u200d"
+                               u"\u23cf"
+                               u"\u23e9"
+                               u"\u231a"
+                               u"\ufe0f"  # dingbats
+                               u"\u3030"
+                               "]+", flags=re.UNICODE)
+    return emoji_pattern.sub(r'', string)
+
+data_titles['Title'] = data_titles['Title'].apply(str)
+data_titles['Title'] = data_titles['Title'].apply(lambda x:remove_emoji(x))
+
 # Se eliminan los registros que tengan menos de 20 y 10 caracteres para hacer comparación
 data_title["Long"] = data_title["Title"].str.len()
-data_title_filtered = data_title[data_title["Long"]>= 20]
+data_title_filtered = data_title[data_title["Long"]>= 40]
 data_title_filtered2 = data_title[data_title["Long"]>= 10]
 
 # Modelo UMAP y HDBSCAN
 # min_cluster_size=80, min_samples=40,
 umap_model = UMAP(n_neighbors=10, n_components=3, min_dist=0.1)
-hdbscan_model = HDBSCAN(prediction_data=True, gen_min_span_tree=True)
+hdbscan_model = HDBSCAN(min_cluster_size=80, min_samples=40,
+                        prediction_data=True, gen_min_span_tree=True)
 
 
 stopwords = list(stopwords.words('english')) + ['http', 'https', 'amp', 'com']
@@ -79,7 +106,8 @@ model = BERTopic(
     hdbscan_model=hdbscan_model,
     embedding_model=embedding_model,
     vectorizer_model=vectorizer_model,
-    top_n_words=2,
+    min_topic_size = 20,
+    top_n_words=10
     language='english',
     calculate_probabilities=True,
     verbose=True
