@@ -6,7 +6,7 @@
 # tempdir()
 # # [1] "C:\Users\XYZ~1\AppData\Local\Temp\Rtmp86bEoJ\Rtxt32dcef24de2"
 # dir.create(tempdir())
-# Shannon entropy R磂nyi
+# Shannon entropy R麓enyi
 library(biwavelet)
 library(RTransferEntropy)
 library(vars)
@@ -68,7 +68,7 @@ grafica_4var <- function(Database, Sistema ,type ="l"){
        main = paste0("Grafica de 4 variables del sistema ",Sistema))
   lines(Database[,2],col="red")
   lines(Database[,3],col="darkblue")
-  lines(Database[,3],col="darkgreen")
+  lines(Database[,4],col="darkgreen")
   legend("topright", legend = c("x1","x2","x3","x4"),
          lwd=3, col = c("black","red","darkblue","darkgreen"))
 }
@@ -865,7 +865,7 @@ colnames(df2) = c("Date", "Precio", "Volumen", "Vocabulario")
 n = nrow(df)
 df2[,1] = df[,1]
 
-#Estandarizaci髇
+#Estandarizaci贸n
 for (i in 2:4) {
   n = length(df[,i])
   media = mean(df[,i])
@@ -909,8 +909,8 @@ adf.test(ts(df2[4])) # Prueba de estacionaridad para el vocabulario
 # Dickey-Fuller = -8.0034, Lag order = 7, p-value = 0.01
 # alternative hypothesis: stationary
 # 
-# El valor p sugiere que los datos son muy poco probables dada la hip髏esis nula (de integraci髇 yt),
-# por lo que es m醩 probable la hip髏esis alternativa (estacionaria yt)
+# El valor p sugiere que los datos son muy poco probables dada la hip贸tesis nula (de integraci贸n yt),
+# por lo que es m谩s probable la hip贸tesis alternativa (estacionaria yt)
 
 pp.test(ts(df2[2]), alternative="stationary")
 pp.test(ts(df2[3]), alternative="stationary")
@@ -934,7 +934,7 @@ pp.test(ts(df2[4]), alternative="stationary")
 # Dickey-Fuller Z(alpha) = -398.7, Truncation lag parameter = 5, p-value = 0.01
 # alternative hypothesis: stationary
 #
-# Sucede lo mismo que el test de Dickey-Fuller, adem醩 nos sugiere un lag de 5
+# Sucede lo mismo que el test de Dickey-Fuller, adem谩s nos sugiere un lag de 5
 
 df.price <- ur.df(ts(df2[2]), type='none',lags=5, selectlags=c("AIC"))
 summary(df.price)
@@ -968,7 +968,7 @@ summary(df.voc)
 # 
 # Value of test-statistic is: -12.7936 
 #
-# De igual manera a adf.test() calcula el test Dickey-Fuller para la hip髏esis nula que x tiene ra韟 unitaria
+# De igual manera a adf.test() calcula el test Dickey-Fuller para la hip贸tesis nula que x tiene ra铆z unitaria
 # Se confirma que la serie es estacionaria con las tres pruebas
 Database_fin = df2[,2:4]
 grafica_3var(Database_fin," Reddit ")
